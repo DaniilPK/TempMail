@@ -35,8 +35,10 @@ def keyboard():
     ]
     return types.ReplyKeyboardMarkup(keyboard=kb,resize_keyboard=True)
 
-@router.message(Command(commands=['start']) or F.text == "➕ New email address",F.chat.type == 'private')
-async def start_cmd_handler(message: types.Message):
+@router.message(Command(commands=['start']),F.chat.type == 'private')
+@router.message(F.text == "➕ New email address",F.chat.type == 'private')
+async def start_cmd_handler(message: types.Message,bot: Bot):
+    await bot.send_chat_action(message.chat.id,'typing')
     tm = TempMail()
     email,id,token = tm._output()
 
@@ -52,7 +54,8 @@ async def start_cmd_handler(message: types.Message):
 
 
 @router.message(F.text == "🔄 Refresh",F.chat.type == 'private')
-async def emails_cmd_handler(message: types.Message):
+async def emails_cmd_handler(message: types.Message,bot: Bot):
+    await bot.send_chat_action(message.chat.id, 'typing')
     tm = TempMail()
 
     c.execute('SELECT email,email_id,token FROM TempEmail WHERE user=?', (message.from_user.id,))
