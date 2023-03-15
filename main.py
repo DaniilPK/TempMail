@@ -1,13 +1,14 @@
 import asyncio
 import logging
 import sqlite3
+from os import getenv
 
 from aiogram import Bot, Dispatcher, Router, types, F
 from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
+
 from tempmail import TempMail
-import config
 
 logger = logging.getLogger(__name__)
 
@@ -90,7 +91,7 @@ async def main():
     logger.info("Starting bot")
 
     storage = MemoryStorage()
-    bot = Bot(token=config.BOT_TOKEN, parse_mode='HTML')
+    bot = Bot(token=getenv("TOKEN"), parse_mode='HTML')
     dp = Dispatcher(storage=storage)
 
     dp.include_router(router)

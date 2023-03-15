@@ -1,6 +1,7 @@
 import asyncio
 import logging
 import sqlite3
+from os import getenv
 
 from aiogram import Bot, Dispatcher, types, F, Router
 from aiogram.enums import ParseMode
@@ -14,8 +15,8 @@ from tempmail import TempMail
 
 logger = logging.getLogger(__name__)
 
-TELEGRAM_TOKEN = ""
-APP_BASE_URL = ""
+TELEGRAM_TOKEN = getenv("TOKEN")
+APP_BASE_URL = getenv("APP_BASE_URL")
 
 storage = MemoryStorage()
 bot = Bot(token=TELEGRAM_TOKEN, parse_mode="HTML")
